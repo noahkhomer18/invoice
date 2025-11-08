@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Maker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Invoice Maker</h1>
+            <p class="subtitle">Create professional invoices for your business</p>
+        </header>
+
+        <div class="invoice-form">
+            <!-- Company Information -->
+            <section class="form-section">
+                <h2>Your Company Information</h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="company-name">Company Name:</label>
+                        <input type="text" id="company-name" placeholder="Your Company Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="company-email">Email:</label>
+                        <input type="email" id="company-email" placeholder="your@email.com">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="company-phone">Phone:</label>
+                        <input type="tel" id="company-phone" placeholder="(555) 123-4567">
+                    </div>
+                    <div class="input-group">
+                        <label for="company-website">Website:</label>
+                        <input type="text" id="company-website" placeholder="www.yourcompany.com">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="company-address">Address:</label>
+                    <textarea id="company-address" rows="2" placeholder="Street Address, City, State, ZIP"></textarea>
+                </div>
+            </section>
+
+            <!-- Customer Information -->
+            <section class="form-section">
+                <h2>Bill To</h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="customer-name">Customer Name / Company:</label>
+                        <input type="text" id="customer-name" placeholder="Customer Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="customer-email">Email:</label>
+                        <input type="email" id="customer-email" placeholder="customer@email.com">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="customer-address">Address:</label>
+                    <textarea id="customer-address" rows="2" placeholder="Street Address, City, State, ZIP"></textarea>
+                </div>
+            </section>
+
+            <!-- Invoice Details -->
+            <section class="form-section">
+                <h2>Invoice Details</h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="invoice-number">Invoice Number:</label>
+                        <input type="text" id="invoice-number" placeholder="INV-001">
+                    </div>
+                    <div class="input-group">
+                        <label for="invoice-date">Invoice Date:</label>
+                        <input type="date" id="invoice-date">
+                    </div>
+                    <div class="input-group">
+                        <label for="due-date">Due Date:</label>
+                        <input type="date" id="due-date">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="payment-terms">Payment Terms:</label>
+                    <input type="text" id="payment-terms" placeholder="e.g., Net 30, Due on Receipt" value="Net 30">
+                </div>
+            </section>
+
+            <!-- Invoice Items -->
+            <section class="form-section">
+                <h2>Items</h2>
+                <div id="items-container">
+                    <!-- Items will be added here -->
+                </div>
+                <button type="button" class="btn-secondary" onclick="addItem()">+ Add Item</button>
+            </section>
+
+            <!-- Totals -->
+            <section class="form-section">
+                <h2>Summary</h2>
+                <div class="totals-box">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="tax-rate">Tax Rate (%):</label>
+                            <input type="number" id="tax-rate" step="0.01" value="0" min="0" onchange="calculateTotals()">
+                        </div>
+                        <div class="input-group">
+                            <label for="discount-amount">Discount ($):</label>
+                            <input type="number" id="discount-amount" step="0.01" value="0" min="0" onchange="calculateTotals()">
+                        </div>
+                    </div>
+                    <div class="total-row" id="tax-row" style="display: none;">
+                        <span>Tax:</span>
+                        <span id="tax-amount">$0.00</span>
+                    </div>
+                    <div class="total-row" id="discount-row" style="display: none;">
+                        <span>Discount:</span>
+                        <span id="discount-display">-$0.00</span>
+                    </div>
+                    <div class="total-row highlight">
+                        <span>Total:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notes -->
+            <section class="form-section">
+                <h2>Additional Information</h2>
+                <div class="input-group">
+                    <label for="notes">Notes / Terms:</label>
+                    <textarea id="notes" rows="4" placeholder="Payment instructions, terms and conditions, or additional notes..."></textarea>
+                </div>
+            </section>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button type="button" class="btn-primary" onclick="generateInvoice()">Generate Invoice</button>
+                <button type="button" class="btn-secondary" onclick="printInvoice()">Print</button>
+                <button type="button" class="btn-secondary" onclick="saveInvoice()">Save</button>
+                <button type="button" class="btn-secondary" onclick="clearForm()">Clear All</button>
+            </div>
+        </div>
+
+        <!-- Invoice Preview -->
+        <div id="invoice-preview" class="invoice-preview" style="display: none;">
+            <div class="preview-header">
+                <button class="btn-close" onclick="closePreview()">× Close Preview</button>
+            </div>
+            <div id="invoice-content"></div>
+            <div class="preview-actions">
+                <button class="btn-primary" onclick="printInvoice()">Print Invoice</button>
+                <button class="btn-secondary" onclick="downloadPDF()">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
